@@ -21,9 +21,9 @@ jobs:
           node_env: staging
           turso_database_url: ${{ secrets.TURSO_DATABASE_URL }}
           turso_auth_token: ${{ secrets.TURSO_AUTH_TOKEN }}
-          service_name: custom-nestapi-service-staging
+          service_name: etraining-api-service-staging
           project_id: braided-upgrade-449514-g9
-          docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/custom-nestapi-staging/custom-nestapi-staging
+          docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/etraining-api-staging/etraining-api-staging
           gcp_sa_key: ${{ secrets.GCP_SA_KEY }}
 
   deploy-production:
@@ -42,7 +42,7 @@ jobs:
           node_env: production
           turso_database_url: ${{ secrets.TURSO_DATABASE_URL }}
           turso_auth_token: ${{ secrets.TURSO_AUTH_TOKEN }}
-          service_name: custom-nestapi-service
+          service_name: etraining-api-service
           project_id: braided-upgrade-449514-g9
-          docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/custom-nestapi/custom-nestapi
+          docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/etraining-api/etraining-api
           gcp_sa_key: ${{ secrets.GCP_SA_KEY }}
