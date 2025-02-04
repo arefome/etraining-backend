@@ -130,7 +130,7 @@ docker run -p 3000:3000 etraining-api
 La aplicación se encuentra en el repositorio de Google Cloud Run, en dos ambientes: uno para desarrollo y otro para producción.
 
 Desarrollo:
-  - URL: https://etraining-api-service-965369668049.us-east1.run.app
+  - URL: https://etraining-api-service-965369668049.us-east1.run.app/api
 
 Producción:
-  - URL: https://etraining-api-service-staging-965369668049.us-east1.run.app
+  - URL: https://etraining-api-service-staging-965369668049.us-east1.run.app/api
