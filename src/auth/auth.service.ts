@@ -23,8 +23,8 @@ export class AuthService {
           role: user.role.name,
         },
         {
-          secret: process.env.JWT_SECRET || 'secretKey',
-          expiresIn: '15m',
+          secret: process.env.JWT_SECRET,
+          expiresIn: '1h',
         }
       );
 
@@ -42,7 +42,7 @@ export class AuthService {
 
     try {
       const payload = this.jwtService.verify(token, {
-        secret: process.env.JWT_SECRET || 'secretKey',
+        secret: process.env.JWT_SECRET,
       });
 
       if (payload.type !== 'email_verification') {
@@ -65,7 +65,7 @@ export class AuthService {
           type: 'access_token',
         },
         {
-          secret: process.env.JWT_SECRET || 'secretKey',
+          secret: process.env.JWT_SECRET,
           expiresIn: '7d',
         }
       );

@@ -15,7 +15,7 @@ import { UsersRepository } from 'src/users/users.repository';
     PrismaModule,
     JwtModule.registerAsync({
       useFactory: () => ({
-        secret: process.env.JWT_SECRET || 'secretKey',
+        secret: process.env.JWT_SECRET,
         signOptions: { expiresIn: '7d' },
       }),
     }),
