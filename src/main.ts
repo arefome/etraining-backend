@@ -1,7 +1,7 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { PrismaClientExceptionFilter } from 'nestjs-prisma';
+// import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -23,8 +23,8 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  // const { httpAdapter } = app.get(HttpAdapterHost);
+  // app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
   app.enableCors();
   await app.listen(process.env.PORT ?? 3000);
 }
