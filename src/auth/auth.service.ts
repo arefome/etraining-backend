@@ -10,27 +10,36 @@ export class AuthService {
   ) {}
 
   async sendLoginLink(email: string) {
-    const user = await this.usersService.findByEmail(email);
-    
-    if (!user) throw new NotFoundException('Usuario no encontrado');
+    try {
+      const user = await this.usersService.findByEmail(email);
+      
+      if (!user) throw new NotFoundException('Usuario no encontrado');
 
-    const verificationToken = this.jwtService.sign(
-      {
-        sub: user.id,
-        email,
-        type: 'email_verification',
-        role: user.role.name,
-      },
-      {
-        secret: process.env.JWT_SECRET,
-        expiresIn: '15m',
-      }
-    );
+      const verificationToken = this.jwtService.sign(
+        {
+          sub: user.id,
+          email,
+          type: 'email_verification',
+          role: user.role.name,
+        },
+        {
+          secret: process.env.JWT_SECRET,
+          expiresIn: '1h',
+        }
+      );
 
-    return { verification_token: verificationToken };
+      return { verification_token: verificationToken };
+    } catch (error) {
+      console.error('Error al enviar el enlace de inicio de sesión:', error);
+      throw new UnauthorizedException('Error al procesar la solicitud');
+    }
   }
 
   async verifyEmailToken(token: string) {
+    if (!token) {
+      throw new UnauthorizedException('Token no proporcionado');
+    }
+
     try {
       const payload = this.jwtService.verify(token, {
         secret: process.env.JWT_SECRET,
@@ -63,6 +72,7 @@ export class AuthService {
 
       return { access_token: accessToken, user };
     } catch (error) {
+      console.error('Error al verificar el token:', error);
       throw new UnauthorizedException('Token inválido o expirado');
     }
   }
