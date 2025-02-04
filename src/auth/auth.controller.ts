@@ -18,7 +18,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Verificar email' })
   @ApiBody({ type: Object })
   @Post('verify')
-  async verifyEmail(@Body() token: string) {
+  async verifyEmail(@Body() { token }: { token: string }) {
     return this.authService.verifyEmailToken(token);
   }
 }
