@@ -1,0 +1,48 @@
+name: 'Deploy environments'
+
+on:
+  push:
+    branches: [main, staging]
+
+jobs:
+  deploy-staging:
+    name: Deploy to staging
+    environment:
+      name: staging
+    if: github.event.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Reusable Deploy Action
+        uses: ./.github/actions/deploy
+        with:
+          node_env: staging
+          turso_database_url: ${{ secrets.TURSO_DATABASE_URL }}
+          turso_auth_token: ${{ secrets.TURSO_AUTH_TOKEN }}
+          service_name: custom-nestapi-service-staging
+          project_id: braided-upgrade-449514-g9
+          docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/custom-nestapi-staging/custom-nestapi-staging
+          gcp_sa_key: ${{ secrets.GCP_SA_KEY }}
+
+  deploy-production:
+    name: Deploy to production
+    environment:
+      name: prod
+    if: github.event.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Reusable Deploy Action
+        uses: ./.github/actions/deploy
+        with:
+          node_env: production
+          turso_database_url: ${{ secrets.TURSO_DATABASE_URL }}
+          turso_auth_token: ${{ secrets.TURSO_AUTH_TOKEN }}
+          service_name: custom-nestapi-service
+          project_id: braided-upgrade-449514-g9
+          docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/custom-nestapi/custom-nestapi
+          gcp_sa_key: ${{ secrets.GCP_SA_KEY }}

@@ -1,0 +1,64 @@
+name: 'Deploy to Cloud Run'
+description: 'Builds a Docker image and deploys it to Google Cloud Run.'
+author: 'Tu Nombre'
+inputs:
+  node_env:
+    description: 'Node environment (e.g., production)'
+    required: true
+    default: 'production'
+  turso_database_url:
+    description: 'Turso database URL'
+    required: true
+  turso_auth_token:
+    description: 'Turso authentication token'
+    required: true
+  service_name:
+    description: 'Name of the Cloud Run service'
+    required: true
+  project_id:
+    description: 'Google Cloud project ID'
+    required: true
+  docker_image_url:
+    description: 'URL of the Docker image'
+    required: true
+  gcp_sa_key:
+    description: 'Google Cloud service account key (JSON)'
+    required: true
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Google Cloud Auth
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ inputs.gcp_sa_key }}'
+        project_id: '${{ inputs.project_id }}'
+
+    - name: Set up Cloud SDK
+      uses: 'google-github-actions/setup-gcloud@v2'
+
+    - name: Configure Docker
+      shell: bash
+      run: |
+        gcloud auth configure-docker us-central1-docker.pkg.dev
+
+    - name: Build and Push Docker Image
+      shell: bash
+      run: |
+        docker build --build-arg NODE_ENV=${{ inputs.node_env }} \
+        --build-arg TURSO_DATABASE_URL=${{ inputs.turso_database_url }} \
+        --build-arg TURSO_AUTH_TOKEN=${{ inputs.turso_auth_token }} \
+        -t ${{ inputs.docker_image_url }}:latest -f Dockerfile .
+        docker push ${{ inputs.docker_image_url }}:latest
+
+    - name: Deploy to Cloud Run
+      shell: bash
+      run: |
+        echo SERVICE_NAME ${{ inputs.service_name }}
+        gcloud run deploy ${{ inputs.service_name }} \
+          --image ${{ inputs.docker_image_url }}:latest \
+          --platform managed \
+          --region us-east1 \
+          --allow-unauthenticated
