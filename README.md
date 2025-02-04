@@ -97,3 +97,134 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Etraining API
+
+![NestJS Logo](https://nestjs.com/img/logo-small.svg)
+
+## Descripción
+
+API construida con NestJS, diseñada para gestionar cursos, inscripciones y usuarios en un entorno educativo. Esta API permite a los administradores gestionar roles, cursos y estados de inscripción, mientras que los usuarios pueden inscribirse en cursos y acceder a su información.
+
+## Tabla de Contenidos
+
+- [Características](#características)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Endpoints](#endpoints)
+- [Pruebas](#pruebas)
+- [Despliegue](#despliegue)
+
+## Características
+
+- Gestión de usuarios y roles.
+- Creación y gestión de cursos.
+- Inscripción de usuarios en cursos.
+- API RESTful con documentación Swagger.
+- Soporte para autenticación JWT.
+
+## Tecnologías Utilizadas
+
+- [NestJS](https://nestjs.com/) - Framework para construir aplicaciones del lado del servidor.
+- [Prisma](https://www.prisma.io/) - ORM para gestionar la base de datos.
+- [TypeScript](https://www.typescriptlang.org/) - Lenguaje de programación.
+- [SQLite](https://www.sqlite.org/index.html) - Base de datos ligera.
+- [Docker](https://www.docker.com/) - Contenerización de la aplicación.
+
+## Instalación
+
+1. Clona el repositorio:
+
+   ```bash
+   git clone https://github.com/tu_usuario/etraining-api.git
+   cd etraining-api
+   ```
+
+2. Instala las dependencias:
+
+   ```bash
+   pnpm install
+   ```
+
+3. Configura las variables de entorno. Crea un archivo `.env` en la raíz del proyecto y añade las siguientes variables:
+
+   ```env
+   NODE_ENV=development
+   JWT_SECRET=tu_secreto_jwt
+   ```
+
+4. Ejecuta las migraciones de la base de datos:
+
+   ```bash
+   npx prisma migrate dev
+   ```
+
+## Uso
+
+Para iniciar la aplicación en modo desarrollo, ejecuta:
+
+```bash
+pnpm run start:dev
+```
+
+La API estará disponible en `http://localhost:3000`.
+
+## Endpoints
+
+### Autenticación
+
+- `POST /auth/login` - Iniciar sesión y obtener un token JWT.
+
+### Usuarios
+
+- `GET /users` - Obtener todos los usuarios.
+- `POST /users` - Crear un nuevo usuario.
+- `GET /users/:id` - Obtener un usuario por ID.
+- `PATCH /users/:id` - Actualizar un usuario.
+- `DELETE /users/:id` - Eliminar un usuario.
+
+### Cursos
+
+- `GET /courses` - Obtener todos los cursos.
+- `POST /courses` - Crear un nuevo curso.
+- `GET /courses/:id` - Obtener un curso por ID.
+- `PATCH /courses/:id` - Actualizar un curso.
+- `DELETE /courses/:id` - Eliminar un curso.
+
+### Inscripciones
+
+- `GET /enrollments` - Obtener todas las inscripciones.
+- `POST /enrollments` - Inscribirse en un curso.
+- `GET /enrollments/:user_id/:course_id` - Obtener una inscripción por ID de usuario y curso.
+- `PATCH /enrollments/:user_id/:course_id` - Actualizar una inscripción.
+- `DELETE /enrollments/:user_id/:course_id` - Eliminar una inscripción.
+
+## Pruebas
+
+Para ejecutar las pruebas unitarias, utiliza:
+
+```bash
+pnpm run test
+```
+
+Para ejecutar las pruebas de extremo a extremo (e2e):
+
+```bash
+pnpm run test:e2e
+```
+
+## Despliegue
+
+Para usar una bd de turso agregar:
+
+ ```env
+ TURSO_DATABASE_URL=tu_url_de_base_de_datos
+ TURSO_AUTH_TOKEN=tu_token_de_autenticación
+ ```
+
+Para desplegar la aplicación en Google Cloud Run, asegúrate de tener configuradas las credenciales de Google Cloud y ejecuta:
+
+```bash
+pnpm run build
+gcloud run deploy
+```
