@@ -75,7 +75,6 @@ model InscriptionStatus {
 }
 
 model UserCourse {
-  id                      String  @id @default(uuid())
   user_id                 String
   user                    User    @relation(fields: [user_id], references: [id])
   course_id               String
@@ -84,4 +83,5 @@ model UserCourse {
   inscription_status      InscriptionStatus @relation(fields: [inscription_status_id], references: [id])
   created_at              DateTime @default(now())
   updated_at              DateTime @updatedAt
+  @@id([user_id, course_id])
 }
