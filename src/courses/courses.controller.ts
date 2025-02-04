@@ -11,7 +11,7 @@ import { HasRoles } from '../auth/decorators/roles.decorator';
 
 @ApiTags('courses')
 @Controller('courses')
-// @UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 

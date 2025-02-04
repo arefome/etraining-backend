@@ -11,11 +11,13 @@ export class EnrollmentsRepository {
     async findAll() {
         return this.prisma.userCourse.findMany(
             {
-                include: {
-                    user: true,
-                    course: true,
-                    inscription_status: { select: { name: true } }
-                }
+              select: {
+                user_id: true,
+                course_id: true,
+                inscription_status: { select: { id: true, name: true } },
+                created_at: true,
+                updated_at: true,
+              }
             }
         );
     }

@@ -14,6 +14,12 @@ import { AuthGuard } from '@nestjs/passport';
 @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+  
+  @ApiOperation({ summary: 'Obtener roles disponibles' })
+  @Get('roles')
+  async getRoles(){
+    return this.usersService.getRoles();
+  }
 
   @ApiOperation({ summary: 'Crear un nuevo usuario' })
   @ApiResponse({ status: 201, description: 'Usuario creado con éxito' })

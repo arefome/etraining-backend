@@ -11,6 +11,7 @@ export class UsersRepository {
     async findAll() {
         return this.prisma.user.findMany({
             include: {
+                role: true,
                 courses: true,
             }
         });
@@ -67,6 +68,10 @@ export class UsersRepository {
                 id: id
             }
         });
+    }
+
+    async getRoles() {
+        return this.prisma.role.findMany();
     }
 
 }

@@ -61,7 +61,7 @@ export class AuthService {
         }
       );
 
-      return { access_token: accessToken };
+      return { access_token: accessToken, user };
     } catch (error) {
       throw new UnauthorizedException('Token inválido o expirado');
     }

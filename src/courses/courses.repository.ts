@@ -9,7 +9,16 @@ export class CoursesRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async findAll() {
-        return this.prisma.course.findMany();
+        return this.prisma.course.findMany({
+            select: {
+                id: true,
+                name: true,
+                duration: true,
+                quota: true,
+                category: { select: { id: true, name: true } },
+                modality: { select: { id: true, name: true } },
+            },
+        });
     }
 
     async findOne(id: string) {
