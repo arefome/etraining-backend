@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { first } from 'rxjs';
 
 const prisma = new PrismaClient();
 
@@ -40,6 +41,46 @@ async function main() {
       where: { name: modality },
       update: {},
       create: { name: modality },
+    });
+  }
+
+  const rolesIds = await prisma.role.findMany({ select: { id: true } });
+  // crete users con roles
+  const users = [
+    {
+      first_name: 'Juan',
+      last_name: 'Perez',
+      email: 'juanperez@gmail.com',
+      phone: '+56 987654321',
+      role_id: rolesIds[0].id,
+    },
+    {
+      first_name: 'Maria',
+      last_name: 'Sanchez',
+      email: 'mariasanchez@gmail.com',
+      phone: '+56 987654322',
+      role_id: rolesIds[1].id,
+    },
+    {
+      first_name: 'Pedro',
+      last_name: 'Rodriguez',
+      email: 'pedrorodriguez@gmail.com',
+      phone: '+56 987654323',
+      role_id: rolesIds[2].id,
+    },
+    {
+      first_name: 'Carlos',
+      last_name: 'Hernandez',
+      email: 'carloshernandez@gmail.com',
+      phone: '+56 987654324',
+      role_id: rolesIds[3].id,
+    },
+  ];
+  for (const user of users) {
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: {},
+      create: user,
     });
   }
 }

@@ -12,6 +12,9 @@ inputs:
   turso_auth_token:
     description: 'Turso authentication token'
     required: true
+  jwt_secret:
+    description: 'JWT secret'
+    required: true
   service_name:
     description: 'Name of the Cloud Run service'
     required: true
@@ -50,6 +53,7 @@ runs:
         docker build --build-arg NODE_ENV=${{ inputs.node_env }} \
         --build-arg TURSO_DATABASE_URL=${{ inputs.turso_database_url }} \
         --build-arg TURSO_AUTH_TOKEN=${{ inputs.turso_auth_token }} \
+        --build-arg JWT_SECRET=${{ inputs.jwt_secret }} \
         -t ${{ inputs.docker_image_url }}:latest -f Dockerfile .
         docker push ${{ inputs.docker_image_url }}:latest
 
