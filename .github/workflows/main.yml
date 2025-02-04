@@ -21,6 +21,7 @@ jobs:
           node_env: staging
           turso_database_url: ${{ secrets.TURSO_DATABASE_URL }}
           turso_auth_token: ${{ secrets.TURSO_AUTH_TOKEN }}
+          jwt_secret: ${{ secrets.JWT_SECRET }}
           service_name: etraining-api-service-staging
           project_id: braided-upgrade-449514-g9
           docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/etraining-api-staging/etraining-api-staging
@@ -42,6 +43,7 @@ jobs:
           node_env: production
           turso_database_url: ${{ secrets.TURSO_DATABASE_URL }}
           turso_auth_token: ${{ secrets.TURSO_AUTH_TOKEN }}
+          jwt_secret: ${{ secrets.JWT_SECRET }}
           service_name: etraining-api-service
           project_id: braided-upgrade-449514-g9
           docker_image_url: us-central1-docker.pkg.dev/braided-upgrade-449514-g9/etraining-api/etraining-api
